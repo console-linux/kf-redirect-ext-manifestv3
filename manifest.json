@@ -1,13 +1,13 @@
 {
   "name": "Codeforces.org redirector",
   "description": "Redirects requests from codeforces.org to codeforces.com/codeforces.org, making Codeforces work again",
-  "version": "0.1",
+  "version": "1.0",
   "manifest_version": 3,
   "permissions": ["declarativeNetRequest"],
   "host_permissions": [
+    "*://codeforces.org/*",
     "*://userpic.codeforces.org/*",
-    "*://codeforces.com/*",
-    "*://codeforces.org/*"
+    "*://codeforces.com/*"
   ],
   "background": {
     "service_worker": "background.js"
@@ -15,7 +15,8 @@
   "content_scripts": [
     {
       "matches": ["*://codeforces.org/*", "*://*.codeforces.org/*"],
-      "js": ["source.js"]
+      "js": ["source.js"],
+      "run_at": "document_end"
     }
   ]
 }

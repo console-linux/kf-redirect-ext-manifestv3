@@ -7,15 +7,19 @@ chrome.runtime.onInstalled.addListener(() => {
       action: {
         type: "redirect",
         redirect: {
-          transform: {
-            host: "codeforces.com",
-            path: "/codeforces.org/*",
-          },
+          regexSubstitution: "https://codeforces.com/codeforces.org\\1",
         },
       },
       condition: {
-        urlFilter: "||codeforces.org",
-        resourceTypes: ["stylesheet", "script", "image"],
+        regexFilter: "^https?://codeforces\\.org(.*)",
+        resourceTypes: [
+          "stylesheet",
+          "script",
+          "image",
+          "font",
+          "main_frame",
+          "sub_frame",
+        ],
       },
     },
     {
@@ -24,15 +28,19 @@ chrome.runtime.onInstalled.addListener(() => {
       action: {
         type: "redirect",
         redirect: {
-          transform: {
-            host: "codeforces.com",
-            path: "/userpic.codeforces.org/*",
-          },
+          regexSubstitution: "https://codeforces.com/userpic.codeforces.org\\1",
         },
       },
       condition: {
-        urlFilter: "||userpic.codeforces.org",
-        resourceTypes: ["stylesheet", "script", "image"],
+        regexFilter: "^https?://userpic\\.codeforces\\.org(.*)",
+        resourceTypes: [
+          "stylesheet",
+          "script",
+          "image",
+          "font",
+          "main_frame",
+          "sub_frame",
+        ],
       },
     },
   ];
