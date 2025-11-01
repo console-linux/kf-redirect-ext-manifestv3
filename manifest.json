@@ -3,10 +3,7 @@
   "description": "Redirects requests from codeforces.org to codeforces.com/codeforces.org, making Codeforces work again",
   "version": "0.1",
   "manifest_version": 3,
-  "permissions": [
-    "webRequest",
-    "webRequestBlocking"
-  ],
+  "permissions": ["declarativeNetRequest"],
   "host_permissions": [
     "*://userpic.codeforces.org/*",
     "*://codeforces.com/*",

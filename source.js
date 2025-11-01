@@ -1,32 +1,44 @@
-if (document.title.indexOf("Codeforces") != -1) {
-  let scripts = document.getElementsByTagName("script")
-
-  let src;
-  for (let i in scripts) {
-    if (!scripts[i] || !scripts[i].attributes) continue;
-    src = scripts[i].attributes.src;
-    if (src) {
-      src.value = src.value.replace("//codeforces.org", "/codeforces.org")
+if (document.title.indexOf("Codeforces") !== -1) {
+  // Function to update URL attributes
+  function updateAttributes(elements, attributeName) {
+    for (let i = 0; i < elements.length; i++) {
+      if (elements[i] && elements[i].attributes) {
+        const attr = elements[i].attributes[attributeName];
+        if (attr && attr.value) {
+          attr.value = attr.value
+            .replace("//codeforces.org", "//codeforces.com/codeforces.org")
+            .replace(
+              "//userpic.codeforces.org",
+              "//codeforces.com/userpic.codeforces.org",
+            );
+        }
+      }
     }
   }
 
-  let images = document.getElementsByTagName("img")
-  for (let i in images) {
-    if (!images[i] || !images[i].attributes) continue;
-    src = images[i].attributes.src;
-    if (src) {
-      src.value = src.value.replace("//codeforces.org", "/codeforces.org")
-    }
-  }
+  // Update script sources
+  const scripts = document.getElementsByTagName("script");
+  updateAttributes(scripts, "src");
 
-  let links = document.getElementsByTagName("link")
-  for (let i in links) {
-    if (!links[i] || !links[i].attributes) continue;
-    src = links[i].attributes.href;
-    if (src) {
-      src.value = src.value.replace("//codeforces.org", "/codeforces.org")
+  // Update image sources
+  const images = document.getElementsByTagName("img");
+  updateAttributes(images, "src");
+
+  // Update link hrefs
+  const links = document.getElementsByTagName("link");
+  updateAttributes(links, "href");
+
+  // Also handle other elements that might have URLs in style attributes
+  const allElements = document.querySelectorAll("*");
+  for (let i = 0; i < allElements.length; i++) {
+    const element = allElements[i];
+    if (element.style && element.style.backgroundImage) {
+      element.style.backgroundImage = element.style.backgroundImage
+        .replace("//codeforces.org", "//codeforces.com/codeforces.org")
+        .replace(
+          "//userpic.codeforces.org",
+          "//codeforces.com/userpic.codeforces.org",
+        );
     }
   }
 }
-
-

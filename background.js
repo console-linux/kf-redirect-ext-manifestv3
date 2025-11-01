@@ -1,19 +1,44 @@
-chrome.webRequest.onBeforeRequest.addListener(
-  function(details) {
-    if (details.url.includes("://codeforces.org")) {
-      return {
-        redirectUrl: details.url.replace("://codeforces.org", "://codeforces.com/codeforces.org")
-      };
-    }
-    if (details.url.includes("://userpic.codeforces.org")) {
-      return {
-        redirectUrl: details.url.replace("://userpic.codeforces.org", "://codeforces.com/userpic.codeforces.org")
-      };
-    }
-  },
-  {
-    urls: ["*://userpic.codeforces.org/*", "*://codeforces.org/*"],
-    types: ["stylesheet", "script", "image"]
-  },
-  ["blocking"]
-);
+// Register redirect rules using declarativeNetRequest API
+chrome.runtime.onInstalled.addListener(() => {
+  const rules = [
+    {
+      id: 1,
+      priority: 1,
+      action: {
+        type: "redirect",
+        redirect: {
+          transform: {
+            host: "codeforces.com",
+            path: "/codeforces.org/*",
+          },
+        },
+      },
+      condition: {
+        urlFilter: "||codeforces.org",
+        resourceTypes: ["stylesheet", "script", "image"],
+      },
+    },
+    {
+      id: 2,
+      priority: 1,
+      action: {
+        type: "redirect",
+        redirect: {
+          transform: {
+            host: "codeforces.com",
+            path: "/userpic.codeforces.org/*",
+          },
+        },
+      },
+      condition: {
+        urlFilter: "||userpic.codeforces.org",
+        resourceTypes: ["stylesheet", "script", "image"],
+      },
+    },
+  ];
+
+  chrome.declarativeNetRequest.updateDynamicRules({
+    addRules: rules,
+    removeRuleIds: rules.map((rule) => rule.id),
+  });
+});
